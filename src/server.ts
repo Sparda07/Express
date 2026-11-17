@@ -140,6 +140,34 @@ app.get("/api/v1/users/:id", async(req: express.Request, res: express.Response) 
         }
     )};
 });
+
+app.put("/api/v1/users/:id", async(req: express.Request, res: express.Response) => {
+    try{
+            const { id } = req.params;
+            const { name, email, age, password } = req.body;
+
+            const result = await pool.query(`
+                UPDATE users SET name = COALESCE($1, name), email = COALESCE($2, email), age = COALESCE($3, age), password = COALESCE($4, password), updated_at = NOW()
+                WHERE id = $5 RETURNING *;
+            `, [name ?? null, email ?? null, age ?? null, password ?? null, id]);
+
+            res.status(200).json(
+                {
+                    success: true,
+                    message: 'User updated successfully',
+                    data: result.rows[0]
+                }
+            );
+
+    }catch (error : any) {res.status(500).json(
+        {
+            success: false, 
+            message: 'Error updating user',
+            error: error 
+        }
+    )}
+})
+    
     
 
 app.listen(port, () => {
