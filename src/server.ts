@@ -1,13 +1,14 @@
 import express from 'express';
 import { Pool } from 'pg';
+import config from './config/index.js';
+
 
 const app = express()
-const port = 3000
 
 
 
 const pool = new Pool({
-    connectionString:"postgresql://neondb_owner:npg_W4OEwic1KqCT@ep-fragrant-tree-az4mg0y2.c-3.ap-southeast-1.aws.neon.tech/neondb?sslmode=false&channel_binding=require"
+    connectionString:config.connectionString
 });
 
 // console.log(pool);
@@ -198,6 +199,6 @@ app.delete("/api/v1/users/:id", async(req: express.Request, res: express.Respons
     )}
 })
 
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
+app.listen(config.port, () => {
+    console.log(`Example app listening on port ${config.port}`)
 })
