@@ -83,6 +83,65 @@ app.post("/api/v1/users", async(req: express.Request, res: express.Response) => 
         }
     )}
 });
+
+app.get("/api/v1/users", async(req: express.Request, res: express.Response) => {
+
+    try{
+
+        const result = await pool.query(`
+            SELECT * FROM users`)
+
+            res.status(200).json(
+        {
+            success: true,
+            message: 'Users retrieved successfully',
+            data: result.rows
+        }
+    )
+
+            // console.log(result);
+
+    }catch (error : any) {res.status(500).json(
+        {
+            success: false,
+            message: 'Error retrieving user',
+            error: error 
+        }
+    )};
+
+});
+
+
+app.get("/api/v1/users/:id", async(req: express.Request, res: express.Response) => {
+    try{
+
+        const { id } = req.params;
+
+        const result = await pool.query(`
+            SELECT * FROM users WHERE id = $1`, [id]);
+
+            console.log(result);
+
+            res.status(200).json(
+        {
+            success: true,
+            message: 'Users retrieved successfully',
+            data: result.rows
+        }
+    )
+
+
+
+    }catch (error : any) {res.status(500).json(
+        {
+            success: false,
+            message: 'Error retrieving user',
+            error: error 
+        }
+    )};
+});
+    
+
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 })
