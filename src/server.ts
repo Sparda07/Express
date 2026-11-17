@@ -37,19 +37,6 @@ const initDB = async () => {
 
 initDB();
 
-
-
-
-// app.get('/', (req: express.Request, res: express.Response) => {
-//     // res.send('Hello World!')
-//     res.status(200).json(
-//         {
-//             success: true,
-//             message: 'Hello World!'
-//         }
-//     )
-// })
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -120,6 +107,15 @@ app.get("/api/v1/users/:id", async(req: express.Request, res: express.Response) 
         const result = await pool.query(`
             SELECT * FROM users WHERE id = $1`, [id]);
 
+            if (result.rowCount === 0) {
+                return res.status(404).json(
+                    {
+                        success: false,
+                        message: 'User not found',
+                    }
+                );
+            }
+
             console.log(result);
 
             res.status(200).json(
@@ -167,8 +163,40 @@ app.put("/api/v1/users/:id", async(req: express.Request, res: express.Response) 
         }
     )}
 })
-    
-    
+
+app.delete("/api/v1/users/:id", async(req: express.Request, res: express.Response) => {
+    try{
+        const { id } = req.params;
+        const result = await pool.query(`
+            DELETE FROM users WHERE id = $1 RETURNING *;
+        `, [id]);
+
+
+        if (result.rowCount === 0) {
+            return res.status(404).json(
+                {
+                    success: false,
+                    message: 'User not found',
+                }
+            );
+        }
+
+        res.status(200).json(
+            {
+                success: true,
+                message: 'User deleted successfully',
+                data: result.rows[0]
+            }
+        );
+
+    }catch (error : any) {res.status(500).json(
+        {
+            success: false,
+            message: 'Error deleting user',
+            error: error
+        }
+    )}
+})
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
