@@ -2,50 +2,17 @@ import express from 'express';
 import { Pool } from 'pg';
 import { initDB } from './db/index.js';
 import { pool } from './db/index.js';
+import { userRoute } from './modules/users/user.route.js';
 
-
-
+// middleware
 const app = express()
-
-
-
-
-
-
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.post("/api/v1/users", async(req: express.Request, res: express.Response) => {
-    try {
-        // console.log(req.body);
+// routes
+app.use("/api/v1/users", userRoute);
 
-    const { name, email, age, password } = req.body;
-    // console.log(pass);
-
-    const result = await pool.query(`
-        INSERT INTO users (name, email, age, password)
-        VALUES ($1, $2, $3, $4) RETURNING *;
-        `, [name, email, age, password]);
-
-        // console.log(result);
-
-    res.status(201).json(
-        {
-            success: true,
-            message: 'User created successfully',
-            data: result.rows[0]
-        }
-    )
-
-    }catch (error : any) {res.status(500).json(
-        {
-            success: false,
-            message: 'Error creating user',
-            error: error 
-        }
-    )}
-});
+// REST_API_CRUD
 
 app.get("/api/v1/users", async(req: express.Request, res: express.Response) => {
 
