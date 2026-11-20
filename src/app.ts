@@ -3,6 +3,7 @@ import { Pool } from 'pg';
 import { initDB } from './db/index.js';
 import { pool } from './db/index.js';
 import { userRoute } from './modules/users/user.route.js';
+import fs from 'fs';
 
 // middleware
 const app = express()
@@ -10,7 +11,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
-    console.log("Method -> URL -> Time:   ", req.method, " -> ", req.url, " -> ", new Date().toISOString());    
+    // console.log("Method -> URL -> Time:   ", req.method, " -> ", req.url, " -> ", new Date().toISOString());    
+    
+    const log = `Method: ${req.method} | URL: ${req.url} | Time: ${new Date().toISOString()}`;
+    console.log(log);
+
+    fs.appendFile("logging.txt", log + "\n", (err) => {
+        if (err) {
+            console.error("Error writing to log file", err);
+        }
+    });
+
+    next();
 })
 
 // routes
