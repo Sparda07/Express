@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use((req, res, next) => {
     // console.log("Method -> URL -> Time:   ", req.method, " -> ", req.url, " -> ", new Date().toISOString());    
     
-    const log = `Method: ${req.method} | URL: ${req.url} | Time: ${new Date().toISOString()}`;
+    const log = `\nMethod: ${req.method} | URL: ${req.url} | Time: ${new Date().toISOString()}\n`;
     console.log(log);
 
     fs.appendFile("logging.txt", log + "\n", (err) => {
