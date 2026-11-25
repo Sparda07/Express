@@ -1,20 +1,22 @@
 import { Router } from 'express';
 import { userController } from './user.controller.js';
+import auth from '../../middleare/auth.js';
 
 
 
 const router = Router();
 
-// custome middleware for auth -> 
 
-const auth = (req, res, next) => {
-    console.log("Auth middleware called");
-    next();
-}
+
+// api/v1/users/ -> 
 
 
 
 
-router.get("/", auth, userController.createUser);
+router.post("/", auth, userController.createUser);
+router.get("/", auth, userController.getAllUsers);
+router.get("/:id", auth, userController.getSingleUser);
+router.put("/:id", auth, userController.updateUser);
+router.delete("/:id", auth, userController.deleteUser);
 
 export const userRoute = router;
