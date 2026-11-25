@@ -25,3 +25,21 @@ Method: GET | URL: /api/v1/users | Time: 2026-11-25T04:10:11.404Z
 
 Method: GET | URL: /api/v1/users | Time: 2026-11-25T05:16:36.561Z
 
+
+Method: GET | URL: /api/v1/users | Time: 2026-11-25T05:26:33.930Z
+
+
+Method: GET | URL: /api/v1/users/5 | Time: 2026-11-25T05:27:24.175Z
+
+
+Method: PUT | URL: /api/v1/users/5 | Time: 2026-11-25T05:28:08.143Z
+
+
+Method: GET | URL: /api/v1/users/5 | Time: 2026-11-25T05:28:18.209Z
+
+
+Method: DELETE | URL: /api/v1/users/5 | Time: 2026-11-25T05:28:37.064Z
+
+
+Method: GET | URL: /api/v1/users/5 | Time: 2026-11-25T05:28:47.099Z
+

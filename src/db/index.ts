@@ -8,7 +8,7 @@ export const pool = new Pool({
 
 // console.log(pool);
 
- export const initDB = async () => {
+export const initDB = async () => {
     try {
         await pool.query(`
             CREATE TABLE IF NOT EXISTS users (
@@ -23,10 +23,27 @@ export const pool = new Pool({
             updated_at TIMESTAMP DEFAULT NOW()
             
             );
-            `)
-        console.log('Initializing database...');
+            `);
+            
+            await pool.query(`
+        CREATE TABLE IF NOT EXISTS profiles (
+            id SERIAL PRIMARY KEY,
+            user_id INT UNIQUE REFERENCES users(id) ON DELETE CASCADE,
+            bio TEXT,
+            adress TEXT,
+            phone_number VARCHAR(20),
+            gender VARCHAR(10),
+            created_at TIMESTAMP DEFAULT NOW(),
+            updated_at TIMESTAMP DEFAULT NOW()
+        );
+        `);
+
+        console.log('Database Connecnt hoise mama');
 
     }catch (error) {
-        console.error('Error initializing database:', error);
+        console.error('Database connect kor asap:', error);
     }
+
+    
+        
 };
