@@ -42,6 +42,7 @@ export const initDB = async () => {
 
     }catch (error) {
         console.error('Database connect kor asap:', error);
+        throw error;
     }
 
     

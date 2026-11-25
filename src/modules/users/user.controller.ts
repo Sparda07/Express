@@ -15,13 +15,13 @@ const createUser = async(req: Request, res: Response) => {
         }
     )
 
-    }catch (error : any) {res.status(500).json(
-        {
+    } catch (error: unknown) {
+        res.status(500).json({
             success: false,
             message: 'Error creating user',
-            error: error
-        }
-    )}
+            error: error instanceof Error ? error.message : 'Unknown error',
+        });
+    }
 };
 
 const getAllUsers = async(req: Request, res: Response) => {

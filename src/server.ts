@@ -5,7 +5,7 @@ import { initDB } from './db/index.js';
 
 
 const main = async () => {
-    initDB();
+    await initDB();
 
     app.listen(config.port, () => {
     console.log(`Example app listening on port ${config.port}`)
@@ -13,4 +13,7 @@ const main = async () => {
 
 }
 
-main()
+main().catch((error: unknown) => {
+    console.error('Failed to start server:', error);
+    process.exitCode = 1;
+});

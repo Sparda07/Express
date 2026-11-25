@@ -17,7 +17,8 @@ const loginUser = async (req: Request, res: Response) => {
             error: error.message,
         });
     }
+};
 
     export const authController = {
     loginUser,
-};
+}
