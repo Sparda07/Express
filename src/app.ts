@@ -4,26 +4,16 @@ import { initDB } from './db/index.js';
 import { pool } from './db/index.js';
 import { userRoute } from './modules/users/user.route.js';
 import fs from 'fs';
+import logger from './middleare/logger.js';
 
 // middleware
 const app = express()
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use((req, res, next) => {
-    // console.log("Method -> URL -> Time:   ", req.method, " -> ", req.url, " -> ", new Date().toISOString());    
-    
-    const log = `\nMethod: ${req.method} | URL: ${req.url} | Time: ${new Date().toISOString()}\n`;
-    console.log(log);
+// custome middleware for logging
 
-    fs.appendFile("logging.txt", log + "\n", (err) => {
-        if (err) {
-            console.error("Error writing to log file", err);
-        }
-    });
-
-    next();
-})
+app.use(logger);
 
 // routes
 app.use("/api/v1/users", userRoute);
