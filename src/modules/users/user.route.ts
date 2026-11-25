@@ -13,6 +13,7 @@ const router = Router();
 
 
 
+
 router.post("/", auth, userController.createUser);
 router.get("/", auth, userController.getAllUsers);
 router.get("/:id", auth, userController.getSingleUser);
