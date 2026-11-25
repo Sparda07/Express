@@ -1,0 +1,11 @@
+
+// custome middleware for auth -> 
+
+import type { NextFunction, Request, Response } from "express";
+
+const auth = (req: Request, res: Response, next: NextFunction) => {
+    console.log("Auth middleware called");
+    next();
+}
+
+export default auth;
