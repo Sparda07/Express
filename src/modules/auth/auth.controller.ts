@@ -32,6 +32,33 @@ const loginUser = async (req: Request, res: Response) => {
     }
 };
 
+
+const generatedTOKEN = async (req: Request, res: Response) => {
+    try {
+        const result = await authService.generatedAccessTOken(req.cookies.refreshToken);
+        // console.log(req.cookies.refreshToken);
+        
+
+        res.status(200).json({
+            success: true,
+            message: 'User logged in successfully',
+            data: result,
+        });
+    } catch (error:any) {
+        res.status(500).json({
+            success: false,
+            message: 'Error logging in user',
+            error: error.message,
+        });
+    }
+};
+
+
+
+
+    export default generatedTOKEN;
+
     export const authController = {
     loginUser,
+    generatedTOKEN
 }

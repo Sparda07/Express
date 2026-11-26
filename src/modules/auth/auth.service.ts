@@ -41,6 +41,8 @@ const accessToken = jwt.sign(jwtPayload, config.jwt_Secret, {
     expiresIn: "1h",
 });
 
+return { accessToken, user: user.rows[0] };
+
 const refreshToken = jwt.sign(jwtPayload, config.Refresh_Secret, {
     expiresIn: "10d",
 });
@@ -48,6 +50,30 @@ const refreshToken = jwt.sign(jwtPayload, config.Refresh_Secret, {
 return { accessToken, refreshToken, user: user.rows[0] };
 };
 
+
+const generatedAccessTOken = async(token : string) => {
+
+    if (!token) {
+        throw new Error("Unauthorized");
+    }
+
+    const decode = jwt.verify(token as string, config.Refresh_Secret) as jwt.JwtPayload;
+    // console.log(decode);
+
+    const user = await pool.query(
+        "SELECT * FROM users WHERE email=$1",
+        [decode.email]
+    );
+
+    console.log(user.rows[0]);
+
+    if (user.rowCount === 0) {
+        throw new Error("Unauthorized");
+    }
+
+}
+
 export const authService = {
 loginUserIntoDB,
+generatedAccessTOken,
 };
