@@ -7,6 +7,7 @@ import { profileRoute } from './modules/profile/profile.route.js';
 import { authRoute } from './modules/auth/auth.route.js';
 import fs from 'fs';
 import logger from './middleare/logger.js';
+import globalErrorHandler from './middleare/globalHandler.js';
 
 // middleware
 const app = express()
@@ -24,5 +25,6 @@ app.use("/api/v1/users", userRoute);
 app.use("/api/v1/profiles", profileRoute);
 app.use("/api/v1/auth", authRoute);
 
+app.use(globalErrorHandler);
 
 export default app;
