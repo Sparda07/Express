@@ -5,7 +5,11 @@ import type { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import config from "../config/index.js";
 import { pool } from "../db/index.js";
-const auth = (...roles : any) => {
+import type { Role } from "../types/index.js";
+
+
+
+const auth = (...roles : Role[]) => {
     return async (req: Request, res: Response, next: NextFunction) => {
         console.log(roles);
     // console.log("Auth middleware called");
@@ -33,6 +37,13 @@ const auth = (...roles : any) => {
         return res.status(401).json({
             success: false,
             message: 'Unauthorized',
+        });
+    }
+
+    if(roles.length && roles.includes(user.rows[0].role)){
+        return res.status(403).json({
+            success: false,
+            message: 'Forbidden',
         });
     }
 
