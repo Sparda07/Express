@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import { authService } from "./auth.service.js";
-
+import sendResponse from "../../utils/sendResponse.js";
 
 const loginUser = async (req: Request, res: Response) => {
     try {
@@ -23,6 +23,12 @@ const loginUser = async (req: Request, res: Response) => {
             message: 'User logged in successfully',
             data: result,
         });
+        sendResponse(res,{
+            statusCOde: 200,
+            success: true,
+            message: 'User logged in successfully',
+            data: result,
+     } );
     } catch (error:any) {
         res.status(500).json({
             success: false,
