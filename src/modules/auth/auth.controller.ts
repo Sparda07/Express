@@ -5,6 +5,19 @@ import { authService } from "./auth.service.js";
 const loginUser = async (req: Request, res: Response) => {
     try {
         const result = await authService.loginUserIntoDB(req.body);
+
+        const { refreshToken } = result;
+
+        res.cookie("refreshToken", refreshToken, {
+            secure: false, // eta true hobe jkhn https use kora hobe
+            httpOnly: true, // prevent xss attact
+            sameSite: "lax", // prevent csrf attact
+            maxAge: 10 * 24 * 60 * 60 * 1000, // 10 days
+            path: "/",
+            domain : "localhost", // change this to your domain name
+
+        })
+
         res.status(200).json({
             success: true,
             message: 'User logged in successfully',

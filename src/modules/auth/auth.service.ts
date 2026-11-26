@@ -38,10 +38,14 @@ const jwtPayload = {
 };
 
 const accessToken = jwt.sign(jwtPayload, config.jwt_Secret, {
-    expiresIn: "1d",
+    expiresIn: "1h",
 });
 
-return { accessToken, user: user.rows[0] };
+const refreshToken = jwt.sign(jwtPayload, config.Refresh_Secret, {
+    expiresIn: "10d",
+});
+
+return { accessToken, refreshToken, user: user.rows[0] };
 };
 
 export const authService = {
