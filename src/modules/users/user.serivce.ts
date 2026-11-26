@@ -8,16 +8,16 @@ const createUserIntoDB = async(payLoad : IUser) => {
 
       // console.log(req.body);
 
-    const { name, email, age, password } = payLoad;
+    const { name, email, age, password, role } = payLoad;
 
     const hash = await bcrypt.hash(password, 10);
 
     // console.log(hash);
 
     const createUser = await pool.query(`
-        INSERT INTO users (name, email, age, password)
-        VALUES ($1, $2, $3, $4) RETURNING *;
-        `, [name, email, age, hash]);
+        INSERT INTO users (name, email, age, password, role)
+        VALUES ($1, $2, $3, $4, COALESCE($5, 'user')) RETURNING *;
+        `, [name, email, age, hash, role]);
 
         // console.log(createUser);
 

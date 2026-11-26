@@ -5,7 +5,9 @@ import type { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import config from "../config/index.js";
 import { pool } from "../db/index.js";
-const auth = async (req: Request, res: Response, next: NextFunction) => {
+const auth = (...roles : any) => {
+    return async (req: Request, res: Response, next: NextFunction) => {
+        console.log(roles);
     // console.log("Auth middleware called");
     // console.log(req.headers.authorization);
 
@@ -39,6 +41,7 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
     console.log(req);
 
     next();
+}
 }
 
 export default auth;

@@ -14,10 +14,10 @@ const router = Router();
 
 
 
-router.post("/", auth, userController.createUser);
-router.get("/", auth, userController.getAllUsers);
-router.get("/:id", auth, userController.getSingleUser);
-router.put("/:id", auth, userController.updateUser);
-router.delete("/:id", auth, userController.deleteUser);
+router.post("/", userController.createUser);
+router.get("/", auth("admin","agent"), userController.getAllUsers);
+router.get("/:id", auth(), userController.getSingleUser);
+router.put("/:id", auth(), userController.updateUser);
+router.delete("/:id", auth(), userController.deleteUser);
 
 export const userRoute = router;
